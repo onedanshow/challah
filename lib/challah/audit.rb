@@ -60,13 +60,13 @@ module Challah
     def before_save_audit
       if new_record?
         all_audit_attributes.map(&:to_s).each do |column|
-          if respond_to?(column) && respond_to?("#{ column }=")
+          if respond_to?(column) && respond_to?("#{ column }=") && self.class.reflect_on_association(column).blank?
             write_attribute(column, current_user_id)
           end
         end
       else
         audit_attributes_for_update.map(&:to_s).each do |column|
-          if respond_to?(column) && respond_to?("#{ column }=")
+          if respond_to?(column) && respond_to?("#{ column }=") && self.class.reflect_on_association(column).blank?
             next if attribute_changed?(column) # don't update the column if we already manually did
             write_attribute(column, current_user_id)
           end
@@ -92,7 +92,7 @@ module Challah
     # Clear attributes and changed_attributes
     def clear_audit_attributes
       all_audit_attributes.each do |attribute_name|
-        if respond_to?(attribute_name) && respond_to?("#{ attribute_name }=")
+        if respond_to?(attribute_name) && respond_to?("#{ attribute_name }=") && self.class.reflect_on_association(column).blank?
           write_attribute(attribute_name, nil)
         end
 
