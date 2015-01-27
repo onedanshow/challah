@@ -92,7 +92,7 @@ module Challah
     # Clear attributes and changed_attributes
     def clear_audit_attributes
       all_audit_attributes.each do |attribute_name|
-        if respond_to?(attribute_name) && respond_to?("#{ attribute_name }=") && self.class.reflect_on_association(column).blank?
+        if respond_to?(attribute_name) && respond_to?("#{ attribute_name }=") && self.class.reflect_on_association(attribute_name).blank?
           write_attribute(attribute_name, nil)
         end
 
