@@ -12,6 +12,7 @@ module Challah
       include ActiveModel::Validations
       extend ActiveModel::Naming
       extend ActiveModel::Callbacks
+      include ActiveRecord::Reflection
 
       define_model_callbacks :create, :update, :save
 
@@ -104,6 +105,17 @@ module Challah
 
       assert_equal nil, @model.created_by
       assert_equal nil, @model.updated_by
+    end
+
+    it "should not error when model has associations with name listed in 'all_audit_attributes' " do
+      assert User.reflect_on_association(:created_by).blank?
+      User.class_eval do
+        belongs_to :created_by
+      end
+      assert_equal :belongs_to, User.reflect_on_association(:created_by).macro
+
+      @item = build(:user)
+      assert @item.save # still passes when reflect_on_association is commented out in audit.rb
     end
   end
 end
