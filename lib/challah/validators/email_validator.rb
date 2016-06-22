@@ -15,7 +15,7 @@ module Challah
 
     # A reasonable-email-looking regexp pattern
     def self.pattern
-      /\A[A-Z0-9._%a-z\-]+@[A-Z0-9a-z\-]+\.+[A-Za-z]{2,}\z/
+      /\A[A-Z0-9._%a-z\-]+@((?:[-\p{L}\d]+\.)+\p{L}{2,})\s*\z/
     end
   end
 end
