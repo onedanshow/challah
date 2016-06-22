@@ -132,6 +132,30 @@ module Challah
       user.email = 'john@challah.me'
       assert_equal true, user.valid?
 
+      user.email = 'john@challah.co.me'
+      assert_equal true, user.valid?
+
+      user.email = 'john.smith@challah.me'
+      assert_equal true, user.valid?
+
+      user.email = 'john-smith@challah.me'
+      assert_equal true, user.valid?
+
+      user.email = 'john_smith@challah.me'
+      assert_equal true, user.valid?
+
+      user.email = 'john@chal@lah.me'
+      assert_equal false, user.valid?
+
+      user.email = 'john,smith@challah.me'
+      assert_equal false, user.valid?
+
+      user.email = 'john_ smith@challah.me'
+      assert_equal false, user.valid?
+
+      user.email = 'john+smith@challah.me'
+      assert_equal false, user.valid?
+
       user.email = 'john@challah.m@me.e'
       assert_equal false, user.valid?
     end
